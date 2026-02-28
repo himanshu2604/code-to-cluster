@@ -1,0 +1,1191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics Pvt Ltd — Powered by DevOps</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --green: #00ff88;
+        --cyan: #00e5ff;
+        --orange: #ff6b35;
+        --dark: #050a0e;
+        --darker: #020608;
+        --panel: #0a1520;
+        --border: #0d2535;
+        --text: #a8c8d8;
+        --dim: #3a5568;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Exo 2", sans-serif;
+        background: var(--darker);
+        color: var(--text);
+        overflow-x: hidden;
+        cursor: crosshair;
+      }
+
+      /* ── SCANLINE OVERLAY ── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 255, 136, 0.015) 2px,
+          rgba(0, 255, 136, 0.015) 4px
+        );
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      /* ── GRID BACKGROUND ── */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2.5rem;
+        height: 64px;
+        background: rgba(5, 10, 14, 0.92);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(12px);
+      }
+
+      .nav-logo {
+        font-family: "Orbitron", monospace;
+        font-weight: 900;
+        font-size: 1.1rem;
+        color: var(--green);
+        letter-spacing: 0.12em;
+        text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        text-decoration: none;
+      }
+
+      .nav-logo span {
+        color: var(--cyan);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--dim);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        transition:
+          color 0.2s,
+          text-shadow 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--cyan);
+        text-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+      }
+
+      .nav-status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--green);
+      }
+
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 8px var(--green);
+        animation: blink 1.4s ease-in-out infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.2;
+        }
+      }
+
+      /* ── HERO ── */
+      #hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 7rem 2rem 4rem;
+        z-index: 1;
+        overflow: hidden;
+      }
+
+      .hero-glow {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(0, 255, 136, 0.08) 0%,
+          transparent 70%
+        );
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        animation: pulse-glow 4s ease-in-out infinite;
+      }
+
+      @keyframes pulse-glow {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.15);
+          opacity: 0.6;
+        }
+      }
+
+      .hero-tag {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--orange);
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        margin-bottom: 1.2rem;
+        opacity: 0;
+        animation: fadeUp 0.7s ease forwards 0.2s;
+      }
+
+      .hero-title {
+        font-family: "Orbitron", monospace;
+        font-size: clamp(2.4rem, 6vw, 5rem);
+        font-weight: 900;
+        line-height: 1.1;
+        color: #fff;
+        letter-spacing: 0.04em;
+        opacity: 0;
+        animation: fadeUp 0.7s ease forwards 0.4s;
+      }
+
+      .hero-title .accent-green {
+        color: var(--green);
+        text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+      }
+      .hero-title .accent-cyan {
+        color: var(--cyan);
+        text-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
+      }
+
+      .hero-subtitle {
+        max-width: 640px;
+        margin: 1.5rem auto 0;
+        font-size: 1.05rem;
+        font-weight: 300;
+        color: var(--text);
+        line-height: 1.7;
+        opacity: 0;
+        animation: fadeUp 0.7s ease forwards 0.6s;
+      }
+
+      /* ── TERMINAL BLOCK ── */
+      .terminal {
+        margin: 3rem auto 0;
+        max-width: 680px;
+        width: 100%;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow:
+          0 0 60px rgba(0, 255, 136, 0.07),
+          0 24px 48px rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        animation: fadeUp 0.7s ease forwards 0.85s;
+      }
+
+      .terminal-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0.7rem 1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .t-dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+      }
+      .t-dot.red {
+        background: #ff5f57;
+      }
+      .t-dot.yellow {
+        background: #febc2e;
+      }
+      .t-dot.green {
+        background: #28c840;
+      }
+
+      .t-title {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--dim);
+        margin-left: 0.5rem;
+        letter-spacing: 0.08em;
+      }
+
+      .terminal-body {
+        padding: 1.4rem 1.6rem;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.82rem;
+        line-height: 2;
+      }
+
+      .t-line {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .t-prompt {
+        color: var(--green);
+      }
+      .t-cmd {
+        color: #fff;
+      }
+      .t-out {
+        color: var(--text);
+        padding-left: 1.2rem;
+      }
+      .t-out.success {
+        color: var(--green);
+      }
+      .t-out.info {
+        color: var(--cyan);
+      }
+      .t-out.warn {
+        color: var(--orange);
+      }
+
+      .cursor {
+        display: inline-block;
+        width: 9px;
+        height: 15px;
+        background: var(--green);
+        animation: cursor-blink 1s step-end infinite;
+        vertical-align: middle;
+        margin-left: 2px;
+      }
+
+      @keyframes cursor-blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* ── PIPELINE SECTION ── */
+      #pipeline {
+        position: relative;
+        z-index: 1;
+        padding: 6rem 2rem;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .section-label {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.25em;
+        color: var(--orange);
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+      }
+
+      .section-title {
+        font-family: "Orbitron", monospace;
+        font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .section-title span {
+        color: var(--cyan);
+      }
+
+      /* ── PIPELINE FLOW ── */
+      .pipeline-flow {
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        gap: 0;
+        max-width: 1100px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+      }
+
+      .pipe-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1.6rem 1.2rem;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        min-width: 130px;
+        flex: 1;
+        max-width: 160px;
+        position: relative;
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s,
+          transform 0.3s;
+        cursor: default;
+      }
+
+      .pipe-step:hover {
+        border-color: var(--green);
+        box-shadow: 0 0 25px rgba(0, 255, 136, 0.15);
+        transform: translateY(-4px);
+      }
+
+      .pipe-step .step-num {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--dim);
+        letter-spacing: 0.1em;
+      }
+
+      .pipe-step .step-icon {
+        font-size: 2rem;
+        line-height: 1;
+      }
+
+      .pipe-step .step-name {
+        font-family: "Orbitron", monospace;
+        font-size: 0.62rem;
+        font-weight: 700;
+        color: var(--green);
+        letter-spacing: 0.1em;
+        text-align: center;
+      }
+
+      .pipe-step .step-desc {
+        font-size: 0.72rem;
+        color: var(--dim);
+        text-align: center;
+        line-height: 1.5;
+      }
+
+      .pipe-arrow {
+        display: flex;
+        align-items: center;
+        padding: 0 0.3rem;
+        color: var(--dim);
+        font-size: 1.2rem;
+        align-self: center;
+        flex-shrink: 0;
+      }
+
+      /* ── TECH STACK SECTION ── */
+      #stack {
+        position: relative;
+        z-index: 1;
+        padding: 6rem 2rem;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(0, 229, 255, 0.02),
+          transparent
+        );
+      }
+
+      .stack-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .stack-card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.8rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s,
+          transform 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stack-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--card-color, var(--green)),
+          transparent
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .stack-card:hover::before {
+        opacity: 1;
+      }
+
+      .stack-card:hover {
+        border-color: var(--card-color, var(--green));
+        box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+        transform: translateY(-3px);
+      }
+
+      .stack-card.git {
+        --card-color: #f05032;
+      }
+      .stack-card.jenkins {
+        --card-color: #d24939;
+      }
+      .stack-card.docker {
+        --card-color: #2496ed;
+      }
+      .stack-card.k8s {
+        --card-color: #326ce5;
+      }
+      .stack-card.ansible {
+        --card-color: #ee0000;
+      }
+      .stack-card.tf {
+        --card-color: #7b42bc;
+      }
+
+      .card-icon {
+        font-size: 2.2rem;
+        line-height: 1;
+      }
+
+      .card-name {
+        font-family: "Orbitron", monospace;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--card-color, var(--green));
+        letter-spacing: 0.08em;
+      }
+
+      .card-role {
+        font-size: 0.8rem;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .card-desc {
+        font-size: 0.75rem;
+        color: var(--dim);
+        line-height: 1.6;
+      }
+
+      /* ── STATS SECTION ── */
+      #stats {
+        position: relative;
+        z-index: 1;
+        padding: 5rem 2rem;
+      }
+
+      .stats-row {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .stat-box {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 2rem 2.5rem;
+        text-align: center;
+        min-width: 160px;
+        flex: 1;
+        max-width: 200px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-box::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--green);
+        box-shadow: 0 0 12px var(--green);
+      }
+
+      .stat-num {
+        font-family: "Orbitron", monospace;
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: var(--green);
+        text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        line-height: 1;
+      }
+
+      .stat-label {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--dim);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-top: 0.5rem;
+      }
+
+      /* ── ARCHITECTURE SECTION ── */
+      #arch {
+        position: relative;
+        z-index: 1;
+        padding: 6rem 2rem;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(0, 255, 136, 0.015),
+          transparent
+        );
+      }
+
+      .arch-diagram {
+        max-width: 800px;
+        margin: 0 auto;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 2.5rem;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.78rem;
+        line-height: 1.9;
+        color: var(--text);
+        box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .arch-diagram::before {
+        content: "SYSTEM ARCHITECTURE";
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        font-size: 0.62rem;
+        color: var(--dim);
+        letter-spacing: 0.2em;
+      }
+
+      .arch-line {
+        display: block;
+      }
+      .arch-green {
+        color: var(--green);
+      }
+      .arch-cyan {
+        color: var(--cyan);
+      }
+      .arch-orange {
+        color: var(--orange);
+      }
+      .arch-white {
+        color: #fff;
+      }
+      .arch-dim {
+        color: var(--dim);
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        position: relative;
+        z-index: 1;
+        border-top: 1px solid var(--border);
+        padding: 2.5rem 2rem;
+        text-align: center;
+      }
+
+      .footer-inner {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .footer-brand {
+        font-family: "Orbitron", monospace;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--green);
+        text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+      }
+
+      .footer-tagline {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--dim);
+        letter-spacing: 0.1em;
+      }
+
+      .footer-badges {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .badge {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.65rem;
+        padding: 0.3rem 0.75rem;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+        color: var(--dim);
+        letter-spacing: 0.08em;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+
+      .badge:hover {
+        border-color: var(--green);
+        color: var(--green);
+      }
+
+      /* ── ANIMATIONS ── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ── FLOATING PARTICLES ── */
+      .particle {
+        position: fixed;
+        width: 2px;
+        height: 2px;
+        background: var(--green);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 0;
+        animation: float-up linear infinite;
+        opacity: 0;
+      }
+
+      @keyframes float-up {
+        0% {
+          transform: translateY(100vh) translateX(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.6;
+        }
+        90% {
+          opacity: 0.3;
+        }
+        100% {
+          transform: translateY(-10vh) translateX(30px);
+          opacity: 0;
+        }
+      }
+
+      /* ── SCROLLBAR ── */
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--darker);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--dim);
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--green);
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 768px) {
+        nav {
+          padding: 0 1rem;
+        }
+        .nav-links {
+          display: none;
+        }
+        .pipeline-flow {
+          gap: 0.5rem;
+        }
+        .pipe-arrow {
+          display: none;
+        }
+        .pipe-step {
+          max-width: 100%;
+          min-width: 140px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- PARTICLES -->
+    <div id="particles"></div>
+
+    <!-- NAV -->
+    <nav>
+      <a href="#hero" class="nav-logo">Analytics<span>.pvt</span></a>
+      <ul class="nav-links">
+        <li><a href="#pipeline">PIPELINE</a></li>
+        <li><a href="#stack">STACK</a></li>
+        <li><a href="#stats">METRICS</a></li>
+        <li><a href="#arch">ARCHITECTURE</a></li>
+      </ul>
+      <div class="nav-status">
+        <div class="status-dot"></div>
+        ALL SYSTEMS OPERATIONAL
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-glow"></div>
+      <p class="hero-tag">// DevOps Capstone II — Production Ready</p>
+      <h1 class="hero-title">
+        From <span class="accent-green">Code</span><br />
+        to <span class="accent-cyan">Cluster</span>
+      </h1>
+      <p class="hero-subtitle">
+        A fully automated DevOps lifecycle powering Analytics Pvt Ltd —
+        continuous integration, containerized deployments, Kubernetes
+        orchestration, and infrastructure as code on AWS.
+      </p>
+
+      <!-- TERMINAL -->
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="t-dot red"></div>
+          <div class="t-dot yellow"></div>
+          <div class="t-dot green"></div>
+          <span class="t-title">jenkins@master:~$ pipeline execution</span>
+        </div>
+        <div class="terminal-body">
+          <div class="t-line">
+            <span class="t-prompt">$</span
+            ><span class="t-cmd">git push origin master</span>
+          </div>
+          <div class="t-line t-out info">
+            ↳ Webhook triggered → Jenkins pipeline started
+          </div>
+          <div class="t-line">
+            <span class="t-prompt">$</span
+            ><span class="t-cmd">docker build -t analyticsapp:latest .</span>
+          </div>
+          <div class="t-line t-out success">
+            ✔ Image built successfully [2.1s]
+          </div>
+          <div class="t-line">
+            <span class="t-prompt">$</span
+            ><span class="t-cmd"
+              >docker push hub.docker.com/analyticsapp:latest</span
+            >
+          </div>
+          <div class="t-line t-out success">✔ Pushed to registry [4.8s]</div>
+          <div class="t-line">
+            <span class="t-prompt">$</span
+            ><span class="t-cmd">kubectl apply -f k8s-deployment.yaml</span>
+          </div>
+          <div class="t-line t-out info">
+            ↳ Deployment "website-deployment" configured
+          </div>
+          <div class="t-line t-out info">
+            ↳ 2/2 replicas running · NodePort: 30008
+          </div>
+          <div class="t-line t-out success">
+            ✔ Deployment successful — zero downtime<span class="cursor"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PIPELINE -->
+    <section id="pipeline">
+      <div class="section-header reveal">
+        <p class="section-label">// automated workflow</p>
+        <h2 class="section-title">CI/CD <span>Pipeline</span></h2>
+      </div>
+
+      <div class="pipeline-flow reveal">
+        <div class="pipe-step">
+          <span class="step-num">01</span>
+          <span class="step-icon">📝</span>
+          <span class="step-name">COMMIT</span>
+          <span class="step-desc">Developer pushes to master branch</span>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <span class="step-num">02</span>
+          <span class="step-icon">🔔</span>
+          <span class="step-name">TRIGGER</span>
+          <span class="step-desc">GitHub webhook fires to Jenkins</span>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <span class="step-num">03</span>
+          <span class="step-icon">🐳</span>
+          <span class="step-name">BUILD</span>
+          <span class="step-desc">Docker image created from Dockerfile</span>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <span class="step-num">04</span>
+          <span class="step-icon">☁️</span>
+          <span class="step-name">PUSH</span>
+          <span class="step-desc">Image uploaded to Docker Hub registry</span>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <span class="step-num">05</span>
+          <span class="step-icon">☸️</span>
+          <span class="step-name">DEPLOY</span>
+          <span class="step-desc"
+            >Kubernetes pulls image, rolls out 2 replicas</span
+          >
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <span class="step-num">06</span>
+          <span class="step-icon">✅</span>
+          <span class="step-name">LIVE</span>
+          <span class="step-desc">Website serving traffic on port 30008</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section id="stats">
+      <div class="stats-row reveal">
+        <div class="stat-box">
+          <div class="stat-num">2</div>
+          <div class="stat-label">K8s Replicas</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">6</div>
+          <div class="stat-label">Pipeline Stages</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Cloud Servers</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">0</div>
+          <div class="stat-label">Downtime</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">6</div>
+          <div class="stat-label">Tools Integrated</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section id="stack">
+      <div class="section-header reveal">
+        <p class="section-label">// tools & technologies</p>
+        <h2 class="section-title">Tech <span>Stack</span></h2>
+      </div>
+
+      <div class="stack-grid">
+        <div class="stack-card git reveal">
+          <div class="card-icon">🌿</div>
+          <div class="card-name">GIT</div>
+          <div class="card-role">Version Control</div>
+          <div class="card-desc">
+            Trunk-based branching with develop → release → master flow. Monthly
+            releases on the 25th.
+          </div>
+        </div>
+
+        <div class="stack-card jenkins reveal">
+          <div class="card-icon">⚙️</div>
+          <div class="card-name">JENKINS</div>
+          <div class="card-role">CI/CD Automation</div>
+          <div class="card-desc">
+            Declarative pipeline triggered via GitHub webhooks. Orchestrates the
+            full build-push-deploy cycle.
+          </div>
+        </div>
+
+        <div class="stack-card docker reveal">
+          <div class="card-icon">🐳</div>
+          <div class="card-name">DOCKER</div>
+          <div class="card-role">Containerization</div>
+          <div class="card-desc">
+            Custom image built from Dockerfile. Pushed to Docker Hub. Identical
+            across dev, test, and production.
+          </div>
+        </div>
+
+        <div class="stack-card k8s reveal">
+          <div class="card-icon">☸️</div>
+          <div class="card-name">KUBERNETES</div>
+          <div class="card-role">Orchestration</div>
+          <div class="card-desc">
+            2-replica deployment for zero downtime. NodePort service exposes the
+            app on port 30008.
+          </div>
+        </div>
+
+        <div class="stack-card ansible reveal">
+          <div class="card-icon">🤖</div>
+          <div class="card-name">ANSIBLE</div>
+          <div class="card-role">Config Management</div>
+          <div class="card-desc">
+            Playbooks provision all 4 worker nodes with the right software —
+            Jenkins, Docker, Java, and Kubernetes.
+          </div>
+        </div>
+
+        <div class="stack-card tf reveal">
+          <div class="card-icon">🏗️</div>
+          <div class="card-name">TERRAFORM</div>
+          <div class="card-role">Infrastructure as Code</div>
+          <div class="card-desc">
+            Provisions AWS EC2 instances, security groups, and networking.
+            Entire infra recreatable in minutes.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section id="arch">
+      <div class="section-header reveal">
+        <p class="section-label">// system design</p>
+        <h2 class="section-title">Architecture <span>Diagram</span></h2>
+      </div>
+
+      <div class="arch-diagram reveal">
+        <span class="arch-line arch-dim"
+          >┌──────────────────────────────────────────────────────────────┐</span
+        >
+        <span class="arch-line arch-dim">│ </span
+        ><span class="arch-orange">MACHINE 1</span
+        ><span class="arch-dim">
+          — Jenkins Master + Terraform + Ansible Controller │</span
+        >
+        <span class="arch-line arch-dim">│ │</span>
+        <span class="arch-line arch-dim">│ </span
+        ><span class="arch-white">[ Jenkinsfile Pipeline ]</span
+        ><span class="arch-dim"> │</span>
+        <span class="arch-line arch-dim"
+          >│ Clone → Build → Push DockerHub → kubectl apply │</span
+        >
+        <span class="arch-line arch-dim"
+          >└──────────────────┬───────────────────────────────────────────┘</span
+        >
+        <span class="arch-line arch-dim"> │ webhook + kubectl</span>
+        <span class="arch-line arch-dim"> ┌─────────┴──────────┐</span>
+        <span class="arch-line arch-dim"> │ │</span>
+        <span class="arch-line arch-dim"> ▼ ▼</span>
+        <span class="arch-line arch-dim"
+          >┌────────────────┐ ┌──────────────────────────────────────────┐</span
+        >
+        <span class="arch-line arch-dim">│ </span
+        ><span class="arch-cyan">MACHINE 2</span
+        ><span class="arch-dim"> │ │ </span
+        ><span class="arch-cyan">MACHINE 3</span
+        ><span class="arch-dim"> — Kubernetes Master Node │</span>
+        <span class="arch-line arch-dim">│ K8s Worker │ │ │</span>
+        <span class="arch-line arch-dim"
+          >│ Docker │ │ ┌──────────────┐ ┌──────────────────┐ │</span
+        >
+        <span class="arch-line arch-dim">│ Kubernetes │ │ │ </span
+        ><span class="arch-green">Pod: replica1</span
+        ><span class="arch-dim"> │ │ </span
+        ><span class="arch-green">Pod: replica2</span
+        ><span class="arch-dim"> │ │</span>
+        <span class="arch-line arch-dim">│ │ │ │ </span
+        ><span class="arch-white">website:latest</span
+        ><span class="arch-dim">│ │ </span
+        ><span class="arch-white">website:latest</span
+        ><span class="arch-dim"> │ │</span>
+        <span class="arch-line arch-dim">│ </span
+        ><span class="arch-orange">MACHINE 4</span
+        ><span class="arch-dim">
+          │ │ └──────────────┘ └──────────────────┘ │</span
+        >
+        <span class="arch-line arch-dim">│ K8s Worker │ │ │</span>
+        <span class="arch-line arch-dim">│ Docker │ │ NodePort Service → </span
+        ><span class="arch-green">:30008</span><span class="arch-dim"> │</span>
+        <span class="arch-line arch-dim"
+          >│ Kubernetes │ └──────────────────────────────────────────┘</span
+        >
+        <span class="arch-line arch-dim">└────────────────┘</span>
+        <span class="arch-line"> </span>
+        <span class="arch-line arch-dim">
+          Terraform provisions all EC2 instances on </span
+        ><span class="arch-orange">AWS us-east-1</span>
+        <span class="arch-line arch-dim">
+          Ansible configures all nodes from a single </span
+        ><span class="arch-cyan">playbook.yml</span>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-brand">ANALYTICS PVT LTD</div>
+        <div class="footer-tagline">
+          // powered by a fully automated devops lifecycle
+        </div>
+        <div class="footer-badges">
+          <span class="badge">GIT</span>
+          <span class="badge">JENKINS</span>
+          <span class="badge">DOCKER</span>
+          <span class="badge">KUBERNETES</span>
+          <span class="badge">ANSIBLE</span>
+          <span class="badge">TERRAFORM</span>
+          <span class="badge">AWS EC2</span>
+        </div>
+        <div class="footer-tagline" style="margin-top: 0.5rem">
+          Intellipaat DevOps Certification — Capstone Project II
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // ── Scroll reveal
+      const reveals = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+              setTimeout(() => e.target.classList.add("visible"), i * 80);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      reveals.forEach((el) => observer.observe(el));
+
+      // ── Floating particles
+      const container = document.getElementById("particles");
+      for (let i = 0; i < 22; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.style.cssText = `
+        left: ${Math.random() * 100}vw;
+        animation-duration: ${8 + Math.random() * 14}s;
+        animation-delay: ${Math.random() * 12}s;
+        opacity: 0;
+        background: ${Math.random() > 0.5 ? "var(--green)" : "var(--cyan)"};
+        width: ${Math.random() > 0.7 ? "3px" : "2px"};
+        height: ${Math.random() > 0.7 ? "3px" : "2px"};
+      `;
+        container.appendChild(p);
+      }
+
+      // ── Smooth active nav highlight
+      const sections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll(".nav-links a");
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 120) current = s.id;
+        });
+        navLinks.forEach((a) => {
+          a.style.color =
+            a.getAttribute("href") === `#${current}` ? "var(--cyan)" : "";
+        });
+      });
+    </script>
+  </body>
+</html>
