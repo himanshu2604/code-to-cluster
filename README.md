@@ -21,21 +21,21 @@
 <details>
 <summary>Click to expand</summary>
 
-- [Project Overview](#-project-overview)
+- [Project Overview](#-Project-Overview)
 - [Architecture](#-Architecture)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Prerequisites](#-prerequisites)
-- [Implementation](#-implementation)
-  - [Step 1: Git Workflow](#step-1-git-workflow)
-  - [Step 2: Dockerfile](#step-2-dockerfile)
-  - [Step 3: Jenkins Pipeline](#step-3-jenkins-pipeline)
-  - [Step 4: Kubernetes Deployment](#step-4-kubernetes-deployment)
-  - [Step 5: Ansible Configuration](#step-5-ansible-configuration)
-  - [Step 6: Terraform Infrastructure](#step-6-terraform-infrastructure)
-- [Pipeline Flow](#-pipeline-flow)
-- [Key Features](#-key-features)
-- [Outcomes & Learnings](#-outcomes--learnings)
+- [Tech Stack](#-Tech-Stack)
+- [Project Structure](#-Project-Structure)
+- [Prerequisites](#-Prerequisites)
+- [Implementation](#-Implementation)
+  - [Step 1: Git Workflow](#Step-1-Git-Workflow)
+  - [Step 2: Dockerfile](#Step-2-Dockerfile)
+  - [Step 3: Jenkins Pipeline](#Step-3-Jenkins-Pipeline)
+  - [Step 4: Kubernetes Deployment](#Step-4-Kubernetes-Deployment)
+  - [Step 5: Ansible Configuration](#Step-5-Ansible-Configuration)
+  - [Step 6: Terraform Infrastructure](#Step-6-Terraform-Infrastructure)
+- [Pipeline Flow](#-Pipeline-Flow)
+- [Key Features](#-Key-Features)
+- [Outcomes & Learnings](#-Outcomes--Learnings)
 
 </details>
 
