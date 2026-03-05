@@ -1,6 +1,6 @@
 # Worker 1: Jenkins + Java
 - hosts: worker1
-  become: yes
+  become: true
   tasks:
     - name: Install Java
       apt:
@@ -31,7 +31,7 @@
 
 # Worker 2 & 4: Docker + Kubernetes
 - hosts: worker2, worker4
-  become: yes
+  become: true
   tasks:
     - name: Install Docker
       apt:
@@ -53,7 +53,7 @@
 
 # Worker 3: Java + Docker + Kubernetes
 - hosts: worker3
-  become: yes
+  become: true
   tasks:
     - name: Install Java
       apt:
