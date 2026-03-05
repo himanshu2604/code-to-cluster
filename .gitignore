@@ -1,0 +1,143 @@
+# ========================================
+# TERRAFORM
+# ========================================
+
+# Local .terraform directory (downloaded providers/modules)
+**/.terraform/*
+
+# Terraform state files (contain sensitive data)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Terraform lock file (optional - some teams commit this)
+# .terraform.lock.hcl
+
+# Terraform variable files (may contain secrets/passwords)
+*.tfvars
+*.tfvars.json
+
+# Terraform plan output files
+*.tfplan
+*.plan
+
+# Terraform crash logs
+crash.log
+crash.*.log
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+
+# ========================================
+# ANSIBLE
+# ========================================
+
+# Ansible retry files
+*.retry
+
+# Ansible vault password files
+.vault_pass
+.vault_password
+vault_password_file
+
+# Ansible inventory with real IPs/passwords
+# ansible/inventory.ini   ← uncomment if your inventory has real credentials
+
+
+# ========================================
+# DOCKER
+# ========================================
+
+# Docker environment files
+.env
+.env.*
+!.env.example
+
+
+# ========================================
+# AWS / CREDENTIALS
+# ========================================
+
+# AWS credentials and config
+.aws/
+*.pem
+*.key
+*.ppk
+
+# Any credentials files
+credentials
+*credentials*
+*secret*
+*secrets*
+
+
+# ========================================
+# JENKINS
+# ========================================
+
+# Jenkins workspace
+.jenkins/
+jenkins_home/
+
+
+# ========================================
+# OS FILES
+# ========================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+.nfs*
+
+
+# ========================================
+# EDITORS & IDEs
+# ========================================
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+
+# IntelliJ / JetBrains
+.idea/
+*.iml
+*.iws
+
+# Vim
+*.swp
+*.swo
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+
+# ========================================
+# LOGS & TEMP
+# ========================================
+
+*.log
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+
+# Node (if any scripts)
+node_modules/
+npm-debug.log*
