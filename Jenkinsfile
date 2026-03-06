@@ -5,6 +5,7 @@ pipeline {
         DOCKER_IMAGE = 'himanshunehete/code-to-cluster'
         DOCKER_TAG = 'latest'
         REGISTRY_CREDENTIALS = 'dockerhub-credentials'
+        KUBECONFIG            = "C:\\ProgramData\\Jenkins\\.jenkins\\.kube\\config"
     }
 
     stages {
