@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'master',
+                git branch: 'main',
                     url: 'https://github.com/himanshu2604/code-to-cluster.git'
             }
         }
