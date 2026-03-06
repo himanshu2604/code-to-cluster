@@ -16,6 +16,16 @@
 
 ---
 
+## 🌐 Live Demo
+
+**🔗 Live Application:**
+
+Experience the deployed application built through our automated CI/CD pipeline!
+
+[![Visit Live Demo](https://img.shields.io/badge/🌐_Visit-Live_Demo-success?style=for-the-badge)](https://himanshu2604.github.io/code-to-cluster/)
+
+---
+
 ## 📋 Table of Contents
 
 <details>
@@ -177,9 +187,11 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "himanshunehete/website"
+        DOCKER_IMAGE = "himanshunehete/code-to-cluster"
         DOCKER_TAG   = "latest"
         REGISTRY_CREDENTIALS = "dockerhub-credentials"
+        KUBECONFIG = "C:\\ProgramData\\Jenkins\\.jenkins\\.kube\\config"
+
     }
 
     stages {
@@ -257,12 +269,12 @@ spec:
     spec:
       containers:
       - name: website
-        image: himanshunehete/website:latest
+        image: himanshunehete/code-to-cluster:latest
         ports:
         - containerPort: 80
 ```
 
-**NodePort Service — Port 30008:**
+**LoadBalancer Service — Port 8085:**
 
 ```yaml
 # k8s/k8s-service.yaml
@@ -271,12 +283,12 @@ kind: Service
 metadata:
   name: website-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: website
   ports:
   - protocol: TCP
-    port: 80
+    port: 8085
     targetPort: 80
     nodePort: 30008
 ```
@@ -289,7 +301,7 @@ kubectl get pods
 kubectl get svc
 
 # Access the website
-# http://localhost:30008
+# http://localhost:8085
 ```
 
 ---
@@ -424,13 +436,30 @@ Through this project, the following was implemented end-to-end:
 
 ---
 
-## 🔗 References
+## 🤝 Contributing
 
-- [Jenkins Documentation](https://www.jenkins.io/doc/)
-- [Docker Documentation](https://docs.docker.com/)
-- [Kubernetes Documentation](https://kubernetes.io/docs/)
-- [Ansible Documentation](https://docs.ansible.com/)
-- [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Author
+
+**Himanshu Nitin Nehete**
+- GitHub: [Himasnhu2604](https://github.com/himanshu2604)
+- LinkedIn: [Himanshu Nehete](www.linkedin.com/in/himanshu-nehete)
+- Email: himanshunehete2025@gmail.com
 
 ---
 
@@ -439,5 +468,9 @@ Through this project, the following was implemented end-to-end:
 **Built as part of Intellipaat DevOps Certification Training — Capstone Project II**
 
 ⭐ Star this repo if you found it helpful!
+
+**Built with ❤️ using DevOps best practices**
+
+[Report Bug](https://github.com/himanshu2604/code-to-cluster/issues) • [Request Feature](https://github.com/himanshu2604/code-to-cluster/issues)
 
 </div>
