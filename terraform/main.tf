@@ -5,7 +5,7 @@ provider "aws" {
 resource "aws_instance" "worker1" {
   ami           = "ami-0c02fb55956c7d316"  # Amazon Linux 2 (update per region)
   instance_type = "t2.medium"
-  key_name      = var.key_name
+  # key_name      = var.key_name
 
   tags = {
     Name = "Worker1-Jenkins"
@@ -15,7 +15,7 @@ resource "aws_instance" "worker1" {
 resource "aws_instance" "worker2" {
   ami           = "ami-0c02fb55956c7d316"
   instance_type = "t2.medium"
-  key_name      = var.key_name
+  # key_name      = var.key_name
 
   tags = {
     Name = "Worker2-K8s-Worker"
@@ -25,7 +25,7 @@ resource "aws_instance" "worker2" {
 resource "aws_instance" "worker3" {
   ami           = "ami-0c02fb55956c7d316"
   instance_type = "t2.medium"
-  key_name      = var.key_name
+  # key_name      = var.key_name
 
   tags = {
     Name = "Worker3-K8s-Master"
@@ -35,7 +35,7 @@ resource "aws_instance" "worker3" {
 resource "aws_instance" "worker4" {
   ami           = "ami-0c02fb55956c7d316"
   instance_type = "t2.medium"
-  key_name      = var.key_name
+  # key_name      = var.key_name
 
   tags = {
     Name = "Worker4-K8s-Worker"
